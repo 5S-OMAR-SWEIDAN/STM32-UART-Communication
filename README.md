@@ -1,8 +1,8 @@
 # STM32-UART-Communication
 
-Communicate between microcontroller and PC using UART. With and without HAL driver library.
+Communicate between microcontroller and PC using UART. With and without HAL driver library.https://github.com/Ltran0325/STM32-UART-Communication/blob/main/README.md
 
-## Universal Asynchronous Reciever-Transmitter (UART):
+## Universal Asynchronous Receiver-Transmitter (UART):
 
 Unlike SPI which is a communication protocol, the UART is a physical circuit inside the STM32 microcontroller. UART allows for asynchronous communication between two devices using two wires. In this project, we cover UART via polling, interrupt, and DMA.
 
@@ -10,7 +10,7 @@ Unlike SPI which is a communication protocol, the UART is a physical circuit ins
 
 Source: Scott Campbell -- https://www.circuitbasics.com/basics-uart-communication/
 
-Data from the UART is sent and recieved as a packet.
+Data from the UART is sent and received as a packet.
 
 ## STM32CubeMX (Initialization Code Generator GUI):
 
@@ -21,7 +21,7 @@ In STM32CubeMX, enable USART2. Set buad rate to 9600 bit/s, 8 data bits, no pari
 
 ## UART Interrupt Method Without HAL UART Module Driver:
 
-### 1) Recieve and return message via UART interrupt.
+### 1) Receive and return message via UART interrupt.
 
 
 ```c
@@ -112,7 +112,7 @@ void USART2_IRQHandler(void)
 
 ### 4) Run the program. 
 
-Board transmits "Hello!" and recieves "Return".
+Board transmits "Hello!" and receives "Return".
 
 ![image](https://user-images.githubusercontent.com/62213019/114915969-1f170b00-9dd9-11eb-9923-ca81e076e8c4.png)
 
@@ -123,7 +123,7 @@ Board transmits "Hello!" and recieves "Return".
 
 ### Polling Method:
 
-The simplest but least efficient method for UART. Polling blocks the CPU until the UART is finished recieving or transmitting data.
+The simplest but least efficient method for UART. Polling blocks the CPU until the UART is finished receiving or transmitting data.
 
 Polling method code:
 ```c
@@ -140,7 +140,7 @@ Purpose:
 
 MCU sends "Hello World!" to PC. PC returns "Goodbye!" to MCU. Hercules SETUP is used to handle PC UART.
  
-Both HAL polling transmit and recieve functions use similar arguments. First, address variable &huart2 is the UART handle for our enabled USART2. Then, the buffer, size of the buffer in bytes, and the allowed blocking time of the function in ms. 
+Both HAL polling transmit and receive functions use similar arguments. First, address variable &huart2 is the UART handle for our enabled USART2. Then, the buffer, size of the buffer in bytes, and the allowed blocking time of the function in ms. 
 
 To further understand these two functions read the STM32F4 HAL User Manual: https://www.st.com/resource/en/user_manual/dm00105879-description-of-stm32f4-hal-and-ll-drivers-stmicroelectronics.pdf. Or, highlight the function inside STM32Cube IDE and right-click to open-declaration. which will bring you to the UART HAL module driver.
 
@@ -148,17 +148,17 @@ To further understand these two functions read the STM32F4 HAL User Manual: http
 
 ### Interrupt Method:
 
-The interrupt method is non-blocking, meaning that recieve/transmit completion will be indicated through interrupt. 
+The interrupt method is non-blocking, meaning that receive/transmit completion will be indicated through interrupt. 
 Since we are using interrupts, the NVIC must be configured.
 
 <img src="https://user-images.githubusercontent.com/62213019/114441498-53dc5580-9b80-11eb-8b8b-1e4032788eed.png" width="468" height="263">
 
 Interrupt method code:
 ```c
-  HAL_UART_Receive_IT(&huart2, RX_Buffer, sizeof(RX_Buffer));   // Recieve data from PC
+  HAL_UART_Receive_IT(&huart2, RX_Buffer, sizeof(RX_Buffer));   // Receive data from PC
   HAL_UART_Transmit_IT(&huart2, TX_Buffer, sizeof(TX_Buffer));  // Transmit data to PC
  ```
-When data the size of RX_Buffer is recieved via UART, the HAL_UART_RxCpltCallback interrupt is called by the HAL_UART_IRQ_Handler.
+When data the size of RX_Buffer is received via UART, the HAL_UART_RxCpltCallback interrupt is called by the HAL_UART_IRQ_Handler.
 ```c
   void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   {
@@ -182,7 +182,7 @@ To configure the DMA, enable USART2_RX and USART2_TX in STMCubeMX
 DMA method code:
 
 ```c
-  HAL_UART_Receive_DMA(&huart2, RX_Buffer, sizeof(RX_Buffer));   // Recieve data from PC
+  HAL_UART_Receive_DMA(&huart2, RX_Buffer, sizeof(RX_Buffer));   // Receive data from PC
   HAL_UART_Transmit_DMA(&huart2, TX_Buffer, sizeof(TX_Buffer));  // Transmit data to PC
  ```
 
