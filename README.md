@@ -17,7 +17,7 @@ Data from the UART is sent and recieved as a packet.
 
 <img src="https://user-images.githubusercontent.com/62213019/114250042-3a08fb80-9951-11eb-89cf-6784db620426.png" width="624" height="351">
 
-In STM32CubeMX, enable USART2. Set buad rate to 9600 bit/s, 8 data bits, no parity bit, and 1 stop bit.
+In STM32CubeMX, enable USART2. Set baud rate to 9600 bit/s, 8 data bits, no parity bit, and 1 stop bit.
 
 ## UART Interrupt Method Without HAL UART Module Driver:
 
